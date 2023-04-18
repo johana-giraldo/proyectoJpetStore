@@ -8,6 +8,7 @@ import org.checkerframework.checker.units.qual.K;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.concurrent.TimeUnit;
@@ -76,8 +77,11 @@ public class registrarSteps {
 
     @Y("ingresa su contraseña")
     public void ingresaSuContrasena() {
-        driver.findElement(By.name("password")).clear();
-        driver.findElement(By.name("password")).sendKeys("userPassword");
+        WebElement password = driver.findElement(By.name("password"));
+        password.clear();
+        password.sendKeys("userPassword");
+        //driver.findElement(By.name("password")).clear();
+        //driver.findElement(By.name("password")).sendKeys("userPassword");
     }
 
     @Y("da clic en el botón ingresar")
@@ -88,8 +92,8 @@ public class registrarSteps {
     @Entonces("el usuario queda logueado en la página")
     public void elUsuarioQuedaLogueadoEnLaPagina() {
         driver.getPageSource().contains("ho");
-        webElementfacade nombre elemento
-                con un if .ispresent
+        //webElementfacade nombre elemento
+                //con un if .ispresent
 
         driver.close();
         driver.quit();
