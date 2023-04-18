@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(features = "src/test/resources/features/jPetStore.feature",
         glue = {"StepDefinitions"},
         monochrome=true,
-        tags="@Caso3",
+        tags="@Caso5",
         plugin= {"pretty", "json:target/JSONReports/report.json"})
 
 public class TestRunner {

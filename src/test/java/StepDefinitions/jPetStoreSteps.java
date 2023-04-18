@@ -4,6 +4,7 @@ import io.cucumber.java.es.Cuando;
 import io.cucumber.java.es.Dado;
 import io.cucumber.java.es.Entonces;
 import io.cucumber.java.es.Y;
+import org.checkerframework.checker.units.qual.K;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -121,6 +122,72 @@ public class jPetStoreSteps {
 
         Assert.assertEquals(actualColumnaUno,expectedColumnaUno);
         Assert.assertEquals(actualColumnaDos,expectedColumnaDos);
+
+        driver.close();
+        driver.quit();
+    }
+
+    //Caso4
+    @Y("da clic en uno de los productos")
+    public void daClicEnUnoDeLosProductos() {
+        driver.findElement(By.xpath("//a[contains(text(),'FI-SW-01')]")).sendKeys(Keys.ENTER);
+    }
+
+    @Y("da clic en Add to Cart")
+    public void daClicEnAddToCart() {
+        driver.findElement(By.xpath("(//a[contains(text(),'Add to Cart')])[1]")).sendKeys(Keys.ENTER);
+    }
+
+    @Entonces("el producto se agrega al carrito de compras")
+    public void elProductoSeAgregaAlCarritoDeCompras() {
+
+        String expectedMensaje = "Shopping Cart";
+
+        String actualMensaje = driver.findElement(By.xpath("//h2[contains(text(),'Shopping Cart')]")).getText();
+
+        Assert.assertEquals(actualMensaje,expectedMensaje);
+
+        driver.close();
+        driver.quit();
+    }
+
+    //caso5
+    @Cuando("se loguee")
+    public void seLoguee() {
+        driver.findElement(By.xpath("//a[contains(text(),'Sign In')]")).sendKeys(Keys.ENTER);
+        driver.findElement(By.name("username")).sendKeys("userTest");
+        WebElement password = driver.findElement(By.name("password"));
+        password.clear();
+        password.sendKeys("userPassword");
+        driver.findElement(By.name("signon")).sendKeys(Keys.ENTER);
+    }
+
+    @Y("agrega productos al carrito de compras")
+    public void agregaProductosAlCarritoDeCompras() {
+        driver.findElement(By.xpath("//*[@id='QuickLinks']/a[1]")).sendKeys(Keys.ENTER);
+        driver.findElement(By.xpath("//a[contains(text(),'FI-SW-01')]")).sendKeys(Keys.ENTER);
+        driver.findElement(By.xpath("(//a[contains(text(),'Add to Cart')])[1]")).sendKeys(Keys.ENTER);
+    }
+
+    @Y("realize el proceso de compra")
+    public void realizeElProcesoDeCompra() {
+        driver.findElement(By.xpath("//a[contains(text(),'Proceed to Checkout')]")).sendKeys(Keys.ENTER);
+
+        //click en continue
+        driver.findElement(By.name("newOrder")).sendKeys(Keys.ENTER);
+
+        //click en confirm
+        driver.findElement(By.xpath("//a[contains(text(),'Confirm')]")).sendKeys(Keys.ENTER);
+
+    }
+
+    @Entonces("visualizara la factura de la compra")
+    public void visualizaraLaFacturaDeLaCompra() {
+        String expectedPalabra = "Payment Details";
+
+        String actualPalabra = driver.findElement(By.xpath("//th[contains(text(),'Payment Details')]")).getText();
+
+        Assert.assertEquals(actualPalabra,expectedPalabra);
 
         driver.close();
         driver.quit();
