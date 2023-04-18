@@ -4,16 +4,15 @@ import io.cucumber.java.es.Cuando;
 import io.cucumber.java.es.Dado;
 import io.cucumber.java.es.Entonces;
 import io.cucumber.java.es.Y;
-import org.checkerframework.checker.units.qual.K;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-
 import java.util.concurrent.TimeUnit;
 
-public class registrarSteps {
+public class jPetStoreSteps {
 
     WebDriver driver = null;
     @Dado("que el  cliente se encuentra en la página de inicio")
@@ -61,7 +60,9 @@ public class registrarSteps {
     @Entonces("el usuario queda registrado correctamente")
     public void elUsuarioQuedaRegistradoCorrectamente() {
 
-        driver.getPageSource().contains("Demo");
+        WebElement palabraEnPantalla = driver.findElement(By.xpath("//a[contains(text(),'Sign In')]"));
+        //realizar aserción, valida que el elemento este en la página
+        Assert.assertTrue(palabraEnPantalla.isDisplayed());
 
         driver.close();
         driver.quit();
@@ -77,9 +78,12 @@ public class registrarSteps {
 
     @Y("ingresa su contraseña")
     public void ingresaSuContrasena() {
+        //manera 1 para llamar un elemento con varios pasos
         WebElement password = driver.findElement(By.name("password"));
         password.clear();
         password.sendKeys("userPassword");
+
+        //manera 2 parta llamar un elemento con varios pasos
         //driver.findElement(By.name("password")).clear();
         //driver.findElement(By.name("password")).sendKeys("userPassword");
     }
@@ -91,9 +95,32 @@ public class registrarSteps {
 
     @Entonces("el usuario queda logueado en la página")
     public void elUsuarioQuedaLogueadoEnLaPagina() {
-        driver.getPageSource().contains("ho");
-        //webElementfacade nombre elemento
-                //con un if .ispresent
+        WebElement palabraPantalla = driver.findElement(By.xpath("//a[contains(text(),'My Account')]"));
+        //realizar aserción, valida que el elemento este en la página
+        Assert.assertTrue(palabraPantalla.isDisplayed());
+
+        driver.close();
+        driver.quit();
+    }
+
+    //caso3
+    @Cuando("da clic a una de las categorías del menú superior")
+    public void daClicAUnaDeLasCategoriasDelMenuSuperior() {
+        driver.findElement(By.xpath("//*[@id='QuickLinks']/a[1]")).sendKeys(Keys.ENTER);
+    }
+
+    @Entonces("el cliente visualiza una tabla con los productos de la categoria")
+    public void elClienteVisualizaUnaTablaConLosProductosDeLaCategoria() {
+
+        //manera para comparar dos textos
+        String expectedColumnaUno = "Product ID";
+        String expectedColumnaDos = "Name";
+
+        String actualColumnaUno = driver.findElement(By.xpath("//th[contains(text(),'Product ID')]")).getText();
+        String actualColumnaDos = driver.findElement(By.xpath("//th[contains(text(),'Name')]")).getText();
+
+        Assert.assertEquals(actualColumnaUno,expectedColumnaUno);
+        Assert.assertEquals(actualColumnaDos,expectedColumnaDos);
 
         driver.close();
         driver.quit();
